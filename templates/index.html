@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Easy share</title>
+</head>
+<body>
+    {% for link in links %}
+        <a href="{{ link['url'] }}">{{ link['name'] }}</a><br>
+    {% endfor %}
+</body>
+</html>
