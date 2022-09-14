@@ -2,7 +2,7 @@
 
 import os
 from argparse import ArgumentParser
-from flask import Flask, send_from_directory, render_template
+from flask import Flask, send_from_directory, render_template, request, redirect
 
 
 def __get_argument_parser() -> ArgumentParser:
@@ -29,10 +29,18 @@ def main(arguments):
         for file in files:
             links.append({
                 'name': file,
-                'url': '/download/' + '/' + file
+                'url': '/download/' + file
             })
         print(links)
         return render_template('index.html', links=links)
+
+    @app.route('/upload', methods=['GET', 'POST'])
+    def upload():
+        if request.method == 'GET':
+            return render_template('upload.html')
+        file = request.files['file']
+        file.save(os.path.join('./shared', file.filename))
+        return redirect('/download')
 
     @app.route('/download/<path:path>')
     def download_file(path):
